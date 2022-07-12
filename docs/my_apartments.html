@@ -36,8 +36,8 @@
 <script type="text/javascript">
       function init()
       {
-      document.getElementById('iframe').style.width=(document.body.clientWidth - 10)+"px";
-      document.getElementById('iframe').style.height=(document.body.clientHeight-200)+"px";
+      document.getElementById('iframe').style.width=(document.body.clientWidth - 1)+"px";
+      document.getElementById('iframe').style.height=(document.body.clientHeight - 1)+"px";
 
       var elements = document.getElementsByClassName('tv');
        n = elements.length;
@@ -51,7 +51,7 @@
       window.addEventListener("resize", init);
 
 </script>
-<body>
+<body onload="init();">
     <iframe id="iframe"  src="https://charts.mongodb.com/charts-project-0-tskll/public/dashboards/5fcc3fdf-120a-48ff-873d-6fb0d140b6fd" frameborder="0"></iframe>
 </body>
 </html>
