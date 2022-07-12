@@ -3,7 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Self-learning purpose</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+         html, body {
+         margin:0;
+         padding:0;
+         height:100%
+         }
+         body {background:#000;}
+         .wrap {
+         display:table;
+         width:100%;
+         /*max-width:980px;*/
+         margin:auto;
+         border-collapse:collapse;
+         /*table-layout:fixed;*/
+         height:100%;/* we can use 100% here in stead of min-height because display:table always treats height as a minimum and will automatically accomodate content*/
+         }
+         .sidebar {
+         width:300px;
+         background:#666;
+         color:#fff;
+         }
+         .main{background:#000;color:#fff;}
+         .tc {
+         display:table-cell;
+         vertical-align:top;
+         /*padding:10px;*/
+         }
+    </style>
 </head>
+<script type="text/javascript">
+      function init()
+      {
+      document.getElementById('iframe').style.width=(document.body.clientWidth - 10)+"px";
+      document.getElementById('iframe').style.height=(document.body.clientHeight-200)+"px";
+
+      var elements = document.getElementsByClassName('tv');
+       n = elements.length;
+      for (var i = 0; i < n; i++) {
+      var e = elements[i];
+      e.style.height=((document.body.clientHeight - 16) / 2) +"px";
+      }
+      }
+
+      // Attaching the event listener function to window's resize event
+      window.addEventListener("resize", init);
+
+</script>
 <body>
     <iframe src="https://charts.mongodb.com/charts-project-0-tskll/public/dashboards/5fcc3fdf-120a-48ff-873d-6fb0d140b6fd" frameborder="0"></iframe>
 </body>
