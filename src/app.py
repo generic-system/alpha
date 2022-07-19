@@ -1,10 +1,13 @@
+import os
+
+import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 import pymongo
 from dash import Dash, dcc, html, dash_table
-from dash.dependencies import Output, Input
 from dash.dash_table.Format import Format, Scheme, Sign
-import os
+from dash.dependencies import Output, Input
+from dash_bootstrap_templates import load_figure_template
 
 MATURITY_OPTIONS = ['Date', 'Overnight', '1 Week', '2 Weeks', '1 Month', '2 Months', '3 Months', '6 Months', '12 Months']
 
@@ -44,10 +47,11 @@ df_head = df.head(100)
 # print(df_head.to_dict('records'))
 #############################################
 
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+load_figure_template('DARKLY')
 
 columns = [
-    dict(id='Date', name='Date', type='datetime', format=Format()),
+    dict(id='Date', name='Date', type='datetime'),
     dict(id='Overnight', name='Overnight', type='numeric', format=Format(scheme=Scheme.fixed, precision=6, sign=Sign.parantheses)),
     dict(id='1 Week', name='1 Week', type='numeric', format=Format(scheme=Scheme.fixed, precision=6, sign=Sign.parantheses)),
     dict(id='1 Month', name='1 Month', type='numeric', format=Format(scheme=Scheme.fixed, precision=6, sign=Sign.parantheses)),
@@ -62,30 +66,56 @@ app.layout = html.Div([
     html.H4('Hibor per Maturity'),
     # dash_table.DataTable(df_head.to_dict('records'), [{"name": i, "id": i} for i in df_head.columns], id='tbl'),
     dash_table.DataTable(
-        df_head.to_dict('records'),
+        # data=df_head.to_dict('records'),
+        data=df_head.to_dict('records'),
         # [{"name": i, "id": i} for i in MATURITY_OPTIONS],
         # [{"name": i, "id": i, "type": "numeric", "format": Format(scheme=Scheme.decimal, precision=6, sign=Sign.parantheses)} for i in MATURITY_OPTIONS],
         columns=columns,
-        style_data_conditional=(
-                [
-                    {
-                        'if': {
-                            'filter_query': '{{1 Month}} = {}'.format(df_head['1 Month'].max()),
-                        },
-                        'backgroundColor': COLOR_5,
-                        'color': 'white',
-                    }
-                ] +
-                [
-                    {
-                        'if': {
-                            'filter_query': '{{1 Month}} = {}'.format(df_head['1 Month'].min()),
-                        },
-                        'backgroundColor': COLOR_2,
-                        'color': 'white',
-                    },
-                ]
-        ),
+        # style_header={
+        #     'backgroundColor': 'rgb(210, 210, 210)',
+        #     'color': 'black',
+        #     'fontWeight': 'bold'
+        # },
+        # style_data={
+        #     'color': 'black',
+        #     'backgroundColor': 'white'
+        # },
+        style_header={
+            'backgroundColor': 'rgb(30, 30, 30)',
+            'color': 'white'
+        },
+        style_data={
+            'backgroundColor': 'rgb(50, 50, 50)',
+            'color': 'white'
+        },
+        style_cell_conditional=[
+            {
+                'if': {'column_id': c},
+                'textAlign': 'left'
+            } for c in ['Date', 'Region']
+        ],
+        style_data_conditional=
+        [
+            {
+                'if': {'row_index': 'odd'},
+                'backgroundColor': 'rgb(80, 80, 80)',
+            },
+            {
+                'if': {
+                    'filter_query': '{{1 Month}} = {}'.format(df_head['1 Month'].max()),
+                },
+                'backgroundColor': COLOR_5,
+                'color': 'white',
+            },
+            {
+                'if': {
+                    'filter_query': '{{1 Month}} = {}'.format(df_head['1 Month'].min()),
+                },
+                'backgroundColor': COLOR_2,
+                'color': 'white',
+            }
+        ],
+
         page_current=0,
         page_action='custom',
         page_size=10,  # we have less data in this example, so setting to 20
@@ -107,7 +137,7 @@ app.layout = html.Div([
         options=[{'label': i, 'value': i} for i in list(df_unpivot.variable.unique())],  # + [{'label': 'All', 'value': 'All'}],
         value=['Overnight', '1 Month', '3 Months', '6 Months', '12 Months'],
         style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-        inline=True
+        # inline=True
     ),
     # dcc.Slider(
     #     id='year-slider',
