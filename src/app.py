@@ -8,8 +8,9 @@ from dash import Dash, dcc, html, dash_table
 from dash.dash_table.Format import Format, Scheme, Sign
 from dash.dependencies import Output, Input
 from dash_bootstrap_templates import load_figure_template
+import datetime
 
-MATURITY_OPTIONS = ['Date', 'Overnight', '1 Week', '2 Weeks', '1 Month', '2 Months', '3 Months', '6 Months', '12 Months']
+MATURITY_OPTIONS = ['Overnight', '1 Week', '2 Weeks', '1 Month', '2 Months', '3 Months', '6 Months', '12 Months']
 
 COLOR_1 = '#16cc62'  # Green
 COLOR_2 = '#196ee6'  # Blue
@@ -22,29 +23,32 @@ pd.options.display.max_rows = None
 pd.options.display.expand_frame_repr = True
 pd.options.display.width = 1000
 
+
 #############################################
 # Query JSON results from MongoDB
 #############################################
 
-CONNECTION_STRING = os.environ['MONGODB_STRING']
-client = pymongo.MongoClient(CONNECTION_STRING)
+def get_data():
+    CONNECTION_STRING = os.environ['MONGODB_STRING']
+    client = pymongo.MongoClient(CONNECTION_STRING)
+    # sample dataset
+    db = client.get_default_database()
+    # sample collection
+    hibor_rates = db['hibor_rates']
+    # remove outliers that are clearly bad data, if needed
+    query = {}
+    # convert our cursor into a list
+    data = list(hibor_rates.find(query).sort([("Date", pymongo.DESCENDING)]).limit(10000))
+    df_all = pd.DataFrame(data).drop(columns=['_id'])
+    df_all['Date'] = df_all['Date'].dt.date
+    # print(df_head.to_dict('records'))
+    ct = datetime.datetime.now()
+    print("current time:-", ct)
+    return df_all
 
-# sample dataset
-db = client.get_default_database()
 
-# sample collection
-hibor_rates = db['hibor_rates']
+df_all = get_data()
 
-# remove outliers that are clearly bad data, if needed
-query = {}
-
-# convert our cursor into a list
-data = list(hibor_rates.find(query).sort([("Date", pymongo.DESCENDING)]).limit(10000))
-df = pd.DataFrame(data).drop(columns=['_id'])
-df['Date'] = df['Date'].dt.date
-df_unpivot = pd.melt(df, id_vars='Date', value_vars=df.columns.drop('Date').tolist())
-df_head = df.head(100)
-# print(df_head.to_dict('records'))
 #############################################
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
@@ -67,19 +71,7 @@ app.layout = html.Div([
     # dash_table.DataTable(df_head.to_dict('records'), [{"name": i, "id": i} for i in df_head.columns], id='tbl'),
     dash_table.DataTable(
         # data=df_head.to_dict('records'),
-        data=df_head.to_dict('records'),
-        # [{"name": i, "id": i} for i in MATURITY_OPTIONS],
-        # [{"name": i, "id": i, "type": "numeric", "format": Format(scheme=Scheme.decimal, precision=6, sign=Sign.parantheses)} for i in MATURITY_OPTIONS],
         columns=columns,
-        # style_header={
-        #     'backgroundColor': 'rgb(210, 210, 210)',
-        #     'color': 'black',
-        #     'fontWeight': 'bold'
-        # },
-        # style_data={
-        #     'color': 'black',
-        #     'backgroundColor': 'white'
-        # },
         style_header={
             'backgroundColor': 'rgb(30, 30, 30)',
             'color': 'white'
@@ -102,20 +94,19 @@ app.layout = html.Div([
             },
             {
                 'if': {
-                    'filter_query': '{{1 Month}} = {}'.format(df_head['1 Month'].max()),
+                    'filter_query': '{{1 Month}} = {}'.format(df_all['1 Month'].max()),
                 },
                 'backgroundColor': COLOR_5,
                 'color': 'white',
             },
             {
                 'if': {
-                    'filter_query': '{{1 Month}} = {}'.format(df_head['1 Month'].min()),
+                    'filter_query': '{{1 Month}} = {}'.format(df_all['1 Month'].min()),
                 },
                 'backgroundColor': COLOR_2,
                 'color': 'white',
             }
         ],
-
         page_current=0,
         page_action='custom',
         page_size=10,  # we have less data in this example, so setting to 20
@@ -134,41 +125,40 @@ app.layout = html.Div([
 
     dcc.Checklist(
         id="checklist",
-        options=[{'label': i, 'value': i} for i in list(df_unpivot.variable.unique())],  # + [{'label': 'All', 'value': 'All'}],
+        options=[{'label': i, 'value': i} for i in MATURITY_OPTIONS],
         value=['Overnight', '1 Month', '3 Months', '6 Months', '12 Months'],
         style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-        # inline=True
     ),
-    # dcc.Slider(
-    #     id='year-slider',
-    #     min=df['Year'].min(),
-    #     max=df['Year'].max(),
-    #     value=df['Year'].min(),
-    #     step=None,
-    #     marks={str(Year): str(Year) for Year in df['Year'].unique()}
-    # )
+
+    html.Div(id='cache', style={'display': 'none'}),
+    dcc.Interval('cache-update', interval=1000 * 60 * 60, n_intervals=0),
 ])
+
+
+@app.callback(Output('cache', 'children'), [Input('cache-update', 'n_intervals')])
+def update_cache(value):
+    return get_data().to_json()
 
 
 @app.callback(
     Output('datatable-paging-page-count', 'data'),
-    Input('datatable-paging-page-count', "page_current"),
-    Input('datatable-paging-page-count', "page_size"))
-def update_table(page_current, page_size):
-    return df.iloc[
-           page_current * page_size:(page_current + 1) * page_size
-           ].to_dict('records')
+    [Input('cache', 'children'),
+     Input('datatable-paging-page-count', "page_current"),
+     Input('datatable-paging-page-count', "page_size")])
+def update_table(cached_data, page_current, page_size):
+    df = pd.read_json(cached_data).head(100)
+    records = df.iloc[page_current * page_size:(page_current + 1) * page_size].to_dict('records')
+    return records
 
 
 @app.callback(
     Output("graph", "figure"),
-    Input("checklist", "value"))
-def update_line_chart(maturity: str):
-    if maturity == "All":
-        filtered_df = df_unpivot
-    else:
-        mask = df_unpivot.variable.isin(maturity)
-        filtered_df = df_unpivot[mask]
+    [Input('cache', 'children'),
+     Input("checklist", "value")])
+def update_line_chart(cached_data, maturity: str):
+    df_unpivot = pd.melt(pd.read_json(cached_data), id_vars='Date', value_vars=df_all.columns.drop('Date').tolist())
+    mask = df_unpivot.variable.isin(maturity)
+    filtered_df = df_unpivot[mask]
     fig = px.line(filtered_df, x="Date", y='value', color='variable')
     fig.update_yaxes(tick0=0.25, dtick=1.0)
     fig.update_layout(legend=dict(
