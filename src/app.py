@@ -52,7 +52,7 @@ df_all = get_data()
 #############################################
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
-load_figure_template('DARKLY')
+load_figure_template('darkly')
 
 columns = [
     dict(id='Date', name='Date', type='datetime'),
@@ -67,7 +67,7 @@ columns = [
 ]
 
 app.layout = html.Div([
-    html.H4('Hibor per Maturity'),
+    html.H4('Maturity'),
     # dash_table.DataTable(df_head.to_dict('records'), [{"name": i, "id": i} for i in df_head.columns], id='tbl'),
     dash_table.DataTable(
         # data=df_head.to_dict('records'),
@@ -156,18 +156,19 @@ def update_table(cached_data, page_current, page_size):
     [Input('cache', 'children'),
      Input("checklist", "value")])
 def update_line_chart(cached_data, maturity: str):
-    df_unpivot = pd.melt(pd.read_json(cached_data), id_vars='Date', value_vars=df_all.columns.drop('Date').tolist())
+    df_unpivot = pd.melt(pd.read_json(cached_data).head(1700), id_vars='Date', value_vars=df_all.columns.drop('Date').tolist())
     mask = df_unpivot.variable.isin(maturity)
     filtered_df = df_unpivot[mask]
     fig = px.line(filtered_df, x="Date", y='value', color='variable')
-    fig.update_yaxes(tick0=0.25, dtick=1.0)
-    fig.update_layout(legend=dict(
-        yanchor="top",
-        y=0.99,
-        xanchor="left",
-        x=0.01
-    ))
+    fig.update_yaxes(tick0=0, dtick=0.5)
+    fig.update_layout(
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+        yaxis_title="%",
+        margin=dict(l=5, r=5, b=5, pad=20),
+        #dragmode='pan'
+    )
+    fig.update_yaxes(side='right')
     return fig
 
 
-app.run_server(debug=True)
+app.run_server(host='0.0.0.0', port=8899)
