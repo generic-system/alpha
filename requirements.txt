@@ -1,0 +1,16 @@
+dash-auth>=1.4.1
+dash-bootstrap-templates==1.0.5
+dash-core-components==2.0.0
+dash-html-components==2.0.0
+dash-renderer==1.1.2
+dash-table==5.0.0
+dash==2.0.0
+datetime
+flask
+gunicorn
+numpy>=1.23.1
+pandas>=1.4.3
+plotly-express>=0.4.1
+plotly>=5.9.0
+pymongo[tls,srv]
+wheel>=0.37.1
