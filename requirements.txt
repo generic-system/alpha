@@ -6,11 +6,12 @@ dash-renderer==1.1.2
 dash-table==5.0.0
 dash==2.0.0
 datetime
-flask
-gunicorn
+flask>=2.1.3
+gunicorn>=20.1.0
 numpy>=1.23.1
 pandas>=1.4.3
 plotly-express>=0.4.1
 plotly>=5.9.0
 pymongo[tls,srv]
 wheel>=0.37.1
+Werkzeug==2.0.0
