@@ -8,50 +8,50 @@ Go to https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-         html, body {
-         margin:0;
-         padding:0;
-         height:100%
-         }
-         body {background:#000;}
-         .wrap {
-         display:table;
-         width:100%;
-         /*max-width:980px;*/
-         margin:auto;
-         border-collapse:collapse;
-         /*table-layout:fixed;*/
-         height:100%;/* we can use 100% here in stead of min-height because display:table always treats height as a minimum and will automatically accomodate content*/
-         }
-         .sidebar {
-         width:300px;
-         background:#666;
-         color:#fff;
-         }
-         .main{background:#000;color:#fff;}
-         .tc {
-         display:table-cell;
-         vertical-align:top;
-         /*padding:10px;*/
-         }
+        html, body {
+        margin:0;
+        padding:0;
+        height:100%
+        }
+        body {background:#000;}
+        .wrap {
+        display:table;
+        width:100%;
+        /*max-width:980px;*/
+        margin:auto;
+        border-collapse:collapse;
+        /*table-layout:fixed;*/
+        height:100%;/* we can use 100% here in stead of min-height because display:table always treats height as a minimum and will automatically accomodate content*/
+        }
+        .sidebar {
+        width:300px;
+        background:#666;
+        color:#fff;
+        }
+        .main{background:#000;color:#fff;}
+        .tc {
+        display:table-cell;
+        vertical-align:top;
+        /*padding:10px;*/
+        }
     </style>
 </head>
 <script type="text/javascript">
-      function init()
-      {
-      document.getElementById('table').style.width=(document.body.clientWidth - 10)+"px";
-      document.getElementById('table').style.height=(document.body.clientHeight-200)+"px";
+    function init()
+    {
+    document.getElementById('table').style.width=(document.body.clientWidth - 10)+"px";
+    document.getElementById('table').style.height=(document.body.clientHeight-200)+"px";
 
-      var elements = document.getElementsByClassName('tv');
-       n = elements.length;
-      for (var i = 0; i < n; i++) {
-      var e = elements[i];
-      e.style.height=((document.body.clientHeight - 16) / 2) +"px";
-      }
-      }
+    var elements = document.getElementsByClassName('tv');
+     n = elements.length;
+    for (var i = 0; i < n; i++) {
+    var e = elements[i];
+    e.style.height=((document.body.clientHeight - 16) / 2) +"px";
+    }
+    }
 
-      // Attaching the event listener function to window's resize event
-      window.addEventListener("resize", init);
+    // Attaching the event listener function to window's resize event
+    window.addEventListener("resize", init);
 
 </script>
 <body onload="init();">
@@ -122,29 +122,29 @@ Go to https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/
                     <div id="tradingview_1d788" class="tv"></div>
                     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
                     <script type="text/javascript">
-                      new TradingView.widget(
-                      {
-                      "autosize": true,
-                      "symbol": "DXY",
-                      "interval": "D",
-                      "timezone": "Etc/UTC",
-                      "theme": "dark",
-                      "style": "1",
-                      "locale": "en",
-                      "toolbar_bg": "#f1f3f6",
-                      "enable_publishing": false,
-                      "allow_symbol_change": true,
-                      "watchlist": [
-                        "DXY",
-                        "PEPPERSTONE:JPYX",
-                        "PEPPERSTONE:EURX",
-                        "HKEX:RXYY",
-                        "HKEX:RXYH"
-                      ],
-                      "details": true,
-                      "container_id": "tradingview_1d788"
-                      }
-                      );
+                        new TradingView.widget(
+                        {
+                        "autosize": true,
+                        "symbol": "DXY",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "watchlist": [
+                          "DXY",
+                          "PEPPERSTONE:JPYX",
+                          "PEPPERSTONE:EURX",
+                          "HKEX:RXYY",
+                          "HKEX:RXYH"
+                        ],
+                        "details": true,
+                        "container_id": "tradingview_1d788"
+                        }
+                        );
 
                     </script>
                 </div>
@@ -161,7 +161,7 @@ Go to https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/
                         new TradingView.widget(
                         {
                         "autosize": true,
-                        "symbol": "USDCNY",
+                        "symbol": "XAGUSD",
                         "interval": "D",
                         "timezone": "Etc/UTC",
                         "theme": "dark",
@@ -182,39 +182,39 @@ Go to https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/
                 <!-- TradingView Widget END -->
             </td>
             <td>
-<!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container" class="tv">
-  <div id="tradingview_aef63" class="tv"></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-  <script type="text/javascript">
-  new TradingView.widget(
-  {
-  "autosize": true,
-  "symbol": "JPYHKD",
-  "interval": "D",
-  "timezone": "Etc/UTC",
-  "theme": "dark",
-  "style": "1",
-  "locale": "en",
-  "toolbar_bg": "#f1f3f6",
-  "enable_publishing": false,
-  "allow_symbol_change": true,
-  "watchlist": [
-    "ECONOMICS:CNIRYY",
-    "ECONOMICS:CNIRMM",
-    "ECONOMICS:CNCIR",
-    "ECONOMICS:CNGDPYY",
-    "ECONOMICS:CNIPMM",
-    "ECONOMICS:CNPPIYY"
-  ],
-  "details": true,
-  "container_id": "tradingview_aef63"
-}
-  );
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-widget-container" class="tv">
+                    <div id="tradingview_aef63" class="tv"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "autosize": true,
+                        "symbol": "JPYHKD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "watchlist": [
+                          "ECONOMICS:CNIRYY",
+                          "ECONOMICS:CNIRMM",
+                          "ECONOMICS:CNCIR",
+                          "ECONOMICS:CNGDPYY",
+                          "ECONOMICS:CNIPMM",
+                          "ECONOMICS:CNPPIYY"
+                        ],
+                        "details": true,
+                        "container_id": "tradingview_aef63"
+                      }
+                        );
 
-  </script>
-</div>
-<!-- TradingView Widget END -->
+                    </script>
+                </div>
+                <!-- TradingView Widget END -->
             </td>
             <td>
                 <!-- TradingView Widget BEGIN -->
@@ -222,30 +222,132 @@ Go to https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/
                     <div id="tradingview_b20d8" class="tv"></div>
                     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
                     <script type="text/javascript">
-                      new TradingView.widget(
-                      {
-                      "autosize": true,
-                      "symbol": "USDJPY",
-                      "interval": "D",
-                      "timezone": "Etc/UTC",
-                      "theme": "dark",
-                      "style": "1",
-                      "locale": "en",
-                      "toolbar_bg": "#f1f3f6",
-                      "enable_publishing": false,
-                      "allow_symbol_change": true,
-                      "watchlist": [
-                        "USIRYY",
-                        "USCIR",
-                        "USCCPI",
-                        "USIRMM",
-                        "USPPIYY",
-                        "FEDFUNDS"
-                      ],
-                      "details": true,
-                      "container_id": "tradingview_b20d8"
+                        new TradingView.widget(
+                        {
+                        "autosize": true,
+                        "symbol": "USDCNY",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "watchlist": [
+                          "USIRYY",
+                          "USCIR",
+                          "USCCPI",
+                          "USIRMM",
+                          "USPPIYY",
+                          "FEDFUNDS"
+                        ],
+                        "details": true,
+                        "container_id": "tradingview_b20d8"
+                        }
+                        );
+
+                    </script>
+                </div>
+                <!-- TradingView Widget END -->
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-widget-container" class="tv">
+                    <div id="tradingview_d0e23" class="tv"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "autosize": true,
+                        "symbol": "USDHKD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "show_popup_button": true,
+                        "popup_width": "1000",
+                        "popup_height": "650",
+                        "container_id": "tradingview_d0e21"
+                        }
+                        );
+
+                    </script>
+                </div>
+                <!-- TradingView Widget END -->
+            </td>
+            <td>
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-widget-container" class="tv">
+                    <div id="tradingview_aef64" class="tv"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "autosize": true,
+                        "symbol": "USDJPY",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "watchlist": [
+                          "ECONOMICS:CNIRYY",
+                          "ECONOMICS:CNIRMM",
+                          "ECONOMICS:CNCIR",
+                          "ECONOMICS:CNGDPYY",
+                          "ECONOMICS:CNIPMM",
+                          "ECONOMICS:CNPPIYY"
+                        ],
+                        "details": true,
+                        "container_id": "tradingview_aef63"
                       }
-                      );
+                        );
+
+                    </script>
+                </div>
+                <!-- TradingView Widget END -->
+            </td>
+            <td>
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-widget-container" class="tv">
+                    <div id="tradingview_b20d9" class="tv"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "autosize": true,
+                        "symbol": "GBPUSD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "watchlist": [
+                          "USIRYY",
+                          "USCIR",
+                          "USCCPI",
+                          "USIRMM",
+                          "USPPIYY",
+                          "FEDFUNDS"
+                        ],
+                        "details": true,
+                        "container_id": "tradingview_b20d8"
+                        }
+                        );
 
                     </script>
                 </div>
